@@ -1,5 +1,7 @@
 package com.thealgorithms.backtracking;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -23,10 +25,24 @@ public class PowerSum {
         sc.close();
     }
     private int count = 0, sum = 0;
+    private final List<Integer> stack = new ArrayList<>();
 
     public int powSum(int N, int X) {
         Sum(N, X, 1);
         return count;
+    }
+
+    private void addToSum(int i, int X) {
+        int iToX = power(i, X);
+        sum += iToX;
+        stack.add(i);
+    }
+
+    private void minusToSum(int i, int X) {
+        int iToX = power(i, X);
+        sum -= iToX;
+        // remove last
+        stack.remove(stack.size() - 1);
     }
 
     //here i is the natural number which will be raised by X and added in sum.
@@ -35,14 +51,17 @@ public class PowerSum {
         //if sum is equal to N that is one of our answer and count is increased.
         if (sum == N) {
             count++;
+            System.err.printf("Result: %s\n", stack);
             return;
         } //we will be adding next natural number raised to X only if on adding it in sum the result is less than N.
         else if (sum + power(i, X) <= N) {
-            sum += power(i, X);
+            //sum += power(i, X);
+            addToSum(i, X);
             Sum(N, X, i + 1);
             //backtracking and removing the number added last since no possible combination is there with it.
             System.out.printf("Go back, i: %s\n", i);
-            sum -= power(i, X);
+            //sum -= power(i, X);
+            minusToSum(i, X);
         }
 
         // always run
