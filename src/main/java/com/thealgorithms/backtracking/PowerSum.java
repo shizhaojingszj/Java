@@ -31,6 +31,7 @@ public class PowerSum {
 
     //here i is the natural number which will be raised by X and added in sum.
     public void Sum(int N, int X, int i) {
+        System.out.printf("N: %s, X: %s, i: %s, sum: %s, count: %s\n", N, X, i, sum, count);
         //if sum is equal to N that is one of our answer and count is increased.
         if (sum == N) {
             count++;
@@ -40,12 +41,18 @@ public class PowerSum {
             sum += power(i, X);
             Sum(N, X, i + 1);
             //backtracking and removing the number added last since no possible combination is there with it.
+            System.out.printf("Go back, i: %s\n", i);
             sum -= power(i, X);
         }
+
+        // always run
         if (power(i, X) < N) {
+            System.out.printf("Next, i: %s\n", i);
             //calling the sum function with next natural number after backtracking if when it is raised to X is still less than X.
             Sum(N, X, i + 1);
         }
+
+        System.out.printf("Return at last, i: %s\n", i);
     }
 
     //creating a separate power function so that it can be used again and again when required. 
